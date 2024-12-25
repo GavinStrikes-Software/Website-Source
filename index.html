@@ -3,135 +3,241 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gavin Strikes - Portfolio</title>
+  <title>my world</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="shortcut icon" type="image/png" href="img.png">
+  <link rel="icon" type="image/png" href="img.png">
+  <meta name="description" content="gavinstrikes Portfolio">
+  <meta name="author" content="GavinStrikes">
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
+    *, *::before, *::after {
       margin: 0;
       padding: 0;
-      background: #121212;
+      box-sizing: border-box;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(0); }
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
       color: #e0e0e0;
       line-height: 1.6;
-      overflow-x: hidden;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      position: relative;
+      height: 100vh;
     }
+
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      cursor: pointer;
+      z-index: 10;
+      opacity: 1;
+      transition: opacity 1s ease;
+      animation: pulse 2s infinite;
+    }
+
+    .loading-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .bg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+      overflow: hidden;
+    }
+
     .container {
       padding: 20px;
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       text-align: center;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease;
+      transform: translateY(-10px);
+      display: none;
+      animation: fadeIn 1s ease forwards;
     }
+
     header {
-      margin-bottom: 40px;
+      margin-bottom: 30px;
+      animation: slideIn 1s ease;
     }
+
     header img {
-      width: 150px;
-      height: px;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
       object-fit: cover;
-      margin-bottom: 1px;
-      margin-top: 30px; 
+      margin-top: 25px;
+      border: 4px solid #ffffff;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: pulse 3s infinite;
     }
+
+    header img:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.4);
+    }
+
     header h1 {
-      color: #00bcd4;
+      color: #ffffff;
       margin-bottom: 10px;
-      font-size: 2.8em;
-      font-weight: 700;
+      font-size: 2.5em;
+      font-weight: bold;
+      animation: fadeIn 1.5s ease;
     }
+
     header p {
-      font-size: 1.2em;
+      font-size: 1.1em;
       margin: 0;
+      font-style: italic;
+      color: #888;
+      animation: fadeIn 2s ease;
     }
+
     .social-links {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 15px;
-      margin-top: 20px;
+      gap: 12px;
+      margin-top: 18px;
+      animation: fadeIn 2.5s ease;
     }
+
     .social-links a {
-      color: #00bcd4;
+      color: #ffffff;
       font-size: 2em;
       transition: color 0.3s ease, transform 0.3s ease;
     }
+
     .social-links a:hover {
-      color: #018b8d;
-      transform: scale(1.1);
+      color: #ffffff;
+      transform: translateY(-3px) scale(1.05);
     }
-    .cookie-consent {
+
+    .now-playing {
       position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #333;
-      color: #e0e0e0;
-      padding: 15px;
-      text-align: center;
+      bottom: 10px;
+      left: 10px;
       font-size: 0.9em;
-      display: none;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-      animation: fadeIn 0.5s ease-out;
+      color: #ffffff;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 8px 12px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      animation: slideIn 1s ease;
     }
-    .cookie-consent span {
+
+    .now-playing-icon {
       margin-right: 10px;
+      animation: pulse 2s infinite;
     }
-    .cookie-consent button {
-      background: #00bcd4;
-      border: none;
-      color: #fff;
-      padding: 8px 16px;
-      font-size: 0.9em;
-      cursor: pointer;
-      border-radius: 5px;
-      transition: background 0.3s ease;
+
+    .now-playing a {
+      color: #ffffff;
+      text-decoration: none;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .cookie-consent button:hover {
-      background: #018b8d;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+
+    .now-playing a:hover {
+      color: #00acee;
     }
   </style>
 </head>
 <body>
+  <div class="loading-screen" onclick="enter()">click anywhere to enter</div>
+
+  <video class="bg" autoplay muted loop>
+    <source src="background.mp4" type="video/mp4">
+    get a better browser buddy
+  </video>
+
   <div class="container">
     <header>
-      <img src="duck.jpg" alt="Ducky">
+      <img src="duck.jpg" alt="duck">
       <h1>GavinStrikes</h1>
       <p>Incompetent Cybersecurity Researcher</p>
     </header>
 
     <section>
       <div class="social-links">
-        <a href="https://www.linkedin.com/in/gavinstrikes" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a href="https://github.com/gavincoded" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-        <a href="mailto:contact@gavinstrikes.wtf" target="_blank" title="Email"><i class="fas fa-envelope"></i></a>
-        <a href="#" onclick="alert('Username: gavinstrikes');" title="Discord"><i class="fab fa-discord"></i></a>
-        <a href="https://open.spotify.com/user/31jh7kg4hf7amz5ll7djzyndcfqi?si=9ff8f811ef7d49ff" target="_blank" title="Spotify"><i class="fab fa-spotify"></i></a>
-        <a href="https://www.youtube.com/channel/UCv72SNf46bjrx0YcqOiIHPw" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
-        <a href="https://t.me/gavinstrikessoftware" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
-        <a href="https://gavinstrikes.wtf/donate" target="_blank" title="Donate"><i class="fab fa-bitcoin"></i></a>
+        <a href="https://www.linkedin.com/in/gavinstrikes" target="_blank" title="LinkedIn" aria-label="linkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/gavincoded" target="_blank" title="GitHub" aria-label="gitHub profile"><i class="fab fa-github"></i></a>
+        <a href="mailto:contact@gavinstrikes.wtf" target="_blank" title="Email" aria-label="email me"><i class="fas fa-envelope"></i></a>
+        <a href="#" onclick="alert('Username: gavinstrikes');" title="Discord" aria-label="discord Username"><i class="fab fa-discord"></i></a>
+        <a href="https://open.spotify.com/user/31jh7kg4hf7amz5ll7djzyndcfqi?si=9ff8f811ef7d49ff" target="_blank" title="Spotify" aria-label="Spotify Profile"><i class="fab fa-spotify"></i></a>
+        <a href="https://www.youtube.com/channel/UCv72SNf46bjrx0YcqOiIHPw" target="_blank" title="YouTube" aria-label="YouTube Channel"><i class="fab fa-youtube"></i></a>
+        <a href="https://t.me/gavinstrikessoftware" target="_blank" title="Telegram" aria-label="telegram"><i class="fab fa-telegram"></i></a>
+        <a href="https://gavinstrikes.wtf/donate" target="_blank" title="Donate" aria-label="Donate"><i class="fab fa-bitcoin"></i></a>
       </div>
     </section>
   </div>
 
-  <div class="cookie-consent" id="cookieConsent">
-    <span>my only discord account is gavinstrikes</span>
-    <button onclick="acceptCookies()">Ok</button>
+  <div class="now-playing">
+    <div class="now-playing-icon">
+      <i class="fas fa-music"></i>
+    </div>
+    Now Playing: 
+    <a href="https://www.youtube.com/watch?v=fzQ6gRAEoy0&pp=ygVgUG9ydGVyIFJvYmluc29uICYgTWFkZW9uIC0gU2hlbHRlciAoT2ZmaWNpYWwgVmlkZW8pIChTaG9ydCBGaWxtIHdpdGggQS0xIFBpY3R1cmVzICYgQ3J1bmNoeXJvbGwp" target="_blank">
+      Porter Robinson & Madeon - Shelter (Official Video)
+    </a>
   </div>
 
+  <audio id="background-audio" src="shelter.mp3"></audio>
   <script>
-    function acceptCookies() {
-      document.getElementById('cookieConsent').style.display = 'none';
-      localStorage.setItem('cookiesAccepted', 'true');
-    }
+    function enter() {
+      const loadingScreen = document.querySelector('.loading-screen');
+      const container = document.querySelector('.container');
+      const audio = document.getElementById('background-audio');
 
-    window.onload = function() {
-      if (!localStorage.getItem('cookiesAccepted')) {
-        document.getElementById('cookieConsent').style.display = 'flex';
-      }
+      loadingScreen.classList.add('fade-out');
+
+      setTimeout(() => {
+        container.style.display = 'block';
+        audio.volume = 0.2;
+        audio.play().catch(error => {
+          console.error("audio no workie", error);
+          alert("it brokie");
+        });
+      }, 1000);
     }
   </script>
 </body>
